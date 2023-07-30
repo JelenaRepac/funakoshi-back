@@ -28,7 +28,7 @@
         <mapping class="rs.ac.bg.fon.karateklubfunakoshiback.model.MembershipFee" />
         <mapping class="rs.ac.bg.fon.karateklubfunakoshiback.model.ResultMember" />
         <mapping class="rs.ac.bg.fon.karateklubfunakoshiback.model.ResultTeam" />
-
+        <mapping class="rs.ac.bg.fon.karateklubfunakoshiback.model.CompetitionEntry" />
     </session-factory>
 </hibernate-configuration>
 
