@@ -8,16 +8,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import rs.ac.bg.fon.karateklubfunakoshiback.communication.Response;
-import rs.ac.bg.fon.karateklubfunakoshiback.dto.CompetitionDTO;
 import rs.ac.bg.fon.karateklubfunakoshiback.dto.CompetitionEntryDTO;
-import rs.ac.bg.fon.karateklubfunakoshiback.model.Competition;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.CompetitionEntry;
 import rs.ac.bg.fon.karateklubfunakoshiback.service.CompetitionEntryService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -50,6 +48,25 @@ public class CompetitionEntryController {
             response.setResponseData(null);
             System.out.println(e.getMessage());
             response.setResponseException(e);
+            return ResponseEntity.ok().body(response);
+        }
+    }
+
+    @GetMapping("/competition/id/{id}")
+    @CrossOrigin
+    public ResponseEntity<Response> getAllEntriesByCompetition(@PathVariable(name="id") Long id){
+        Response response= new Response();
+        try {
+
+            List<CompetitionEntryDTO> entries = competitionEntryService.getAllByCompetitionId(id).stream().map(entry -> modelMapper.map(entry, CompetitionEntryDTO.class))
+                    .collect(Collectors.toList());
+            response.setResponseData(entries);
+            response.setResponseException(null);
+            return ResponseEntity.ok().body(response);
+        }catch (Exception ex) {
+            response.setResponseData(null);
+            System.out.println(ex.getMessage());
+            response.setResponseException(ex);
             return ResponseEntity.ok().body(response);
         }
     }

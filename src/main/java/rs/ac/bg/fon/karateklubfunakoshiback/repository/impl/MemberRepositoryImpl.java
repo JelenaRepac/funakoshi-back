@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Member;
-import rs.ac.bg.fon.karateklubfunakoshiback.model.ResultMember;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.MemberRepository;
 
 /**
@@ -22,8 +21,7 @@ public class MemberRepositoryImpl implements MemberRepository{
     @Override
     public List<Member> getAll() {
         EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
-        List<Member> dbResults= em.createQuery("select m from Member m").getResultList();
-        return dbResults;
+       return em.createQuery("select m from Member m").getResultList();
     }
 
     @Override
@@ -63,10 +61,17 @@ public class MemberRepositoryImpl implements MemberRepository{
     }
 
     @Override
-    public Member getAllByCompetitorId(Long id) {
-        EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
-        List<Member> results = em.createQuery("select m from Member m where m.competitor.id = :id").setParameter("id", id).getResultList();
-        return results.get(0);
+    public Member getByCompetitorId(Long id) {
+        EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
+        List<Member> results = em.createQuery("select m from Member m where m.competitor.id = :id", Member.class)
+                .setParameter("id", id)
+                .getResultList();
+
+        if (!results.isEmpty()) {
+            return results.get(0);
+        } else {
+            return null;
+        }
     }
     
     

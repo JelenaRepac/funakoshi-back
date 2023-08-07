@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Competition;
-import rs.ac.bg.fon.karateklubfunakoshiback.model.Member;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.CompetitionRepository;
 
 /**
@@ -19,12 +18,12 @@ import rs.ac.bg.fon.karateklubfunakoshiback.repository.CompetitionRepository;
  */
 @Service
 public class CompetitionService {
-    
-    
+
+
     @Autowired
     private CompetitionRepository competitionRepository;
-    
-    
+
+
     public List<Competition> getAll(){
         EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
         em.getTransaction().begin();
@@ -40,9 +39,9 @@ public class CompetitionService {
             em.close();
             EntityManagerProvider.getInstance().closeSession();
         }
-        
+
     }
-    
+
     public void deleteCompetition(Long id){
         EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
         em.getTransaction().begin();
@@ -57,18 +56,18 @@ public class CompetitionService {
             em.close();
             EntityManagerProvider.getInstance().closeSession();
         }
-        
+
     }
-    
-     public Competition save(Competition competition) {
-       EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
-       em.getTransaction().begin();
-       try{
-           Competition dbCompetition= competitionRepository.save(competition);
-           em.getTransaction().commit();
-           return dbCompetition;
-       } catch( Exception e){
-          if (em.getTransaction().isActive())
+
+    public Competition save(Competition competition) {
+        EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
+        em.getTransaction().begin();
+        try{
+            Competition dbCompetition= competitionRepository.save(competition);
+            em.getTransaction().commit();
+            return dbCompetition;
+        } catch( Exception e){
+            if (em.getTransaction().isActive())
                 em.getTransaction().rollback();
             throw e;
 
@@ -77,4 +76,22 @@ public class CompetitionService {
             EntityManagerProvider.getInstance().closeSession();
         }
     }
+    public Competition update(Competition competition) {
+        EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
+        em.getTransaction().begin();
+        try{
+            Competition dbCompetition = competitionRepository.update(competition);
+            em.getTransaction().commit();
+            return dbCompetition;
+        } catch( Exception e){
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+
+        } finally {
+            em.close();
+            EntityManagerProvider.getInstance().closeSession();
+        }
+    }
+
 }

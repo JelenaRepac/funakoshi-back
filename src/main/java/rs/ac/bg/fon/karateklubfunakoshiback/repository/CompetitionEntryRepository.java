@@ -6,6 +6,8 @@ package rs.ac.bg.fon.karateklubfunakoshiback.repository;
 
 import rs.ac.bg.fon.karateklubfunakoshiback.model.CompetitionEntry;
 
+import java.util.List;
+
 
 /**
  *
@@ -13,8 +15,9 @@ import rs.ac.bg.fon.karateklubfunakoshiback.model.CompetitionEntry;
  */
 public interface CompetitionEntryRepository {
 
-    public CompetitionEntry save(CompetitionEntry competitionEntry);
+     CompetitionEntry save(CompetitionEntry competitionEntry);
 
+     List<CompetitionEntry> getAllByCompetitionId(Long id);
 
 
 }

@@ -10,12 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import rs.ac.bg.fon.karateklubfunakoshiback.communication.Response;
 import rs.ac.bg.fon.karateklubfunakoshiback.dto.ResultMemberDTO;
+import rs.ac.bg.fon.karateklubfunakoshiback.model.ResultMember;
 import rs.ac.bg.fon.karateklubfunakoshiback.service.ResultMemberService;
 
 /**
@@ -66,6 +64,27 @@ public class ResultMemberController {
             response.setResponseData(null);
             System.out.println(ex.getMessage());
             response.setResponseException(ex);
+            return ResponseEntity.ok().body(response);
+        }
+    }
+    @PostMapping()
+    public ResponseEntity<Response> saveResultMember(@RequestBody ResultMemberDTO resultMemberDTO) {
+        Response response= new Response();
+        try {
+            ResultMember transformedResultMemberObject =
+                    modelMapper.map(resultMemberDTO, ResultMember.class);
+            System.out.println(transformedResultMemberObject+"DTO");
+            ResultMemberDTO savedResultMember= modelMapper.map(
+                    resultService.save(transformedResultMemberObject), ResultMemberDTO.class);
+            System.out.println(savedResultMember+"RESULTTT");
+            response.setResponseData(savedResultMember);
+            response.setResponseException(null);
+            return ResponseEntity.ok().body(response);
+
+        } catch (Exception e) {
+            response.setResponseData(null);
+            System.out.println(e.getMessage());
+            response.setResponseException(e);
             return ResponseEntity.ok().body(response);
         }
     }

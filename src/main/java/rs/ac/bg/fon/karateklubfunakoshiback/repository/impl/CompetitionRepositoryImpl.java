@@ -21,27 +21,37 @@ public class CompetitionRepositoryImpl implements CompetitionRepository {
     @Override
     public List<Competition> getAll() {
         EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
-        List<Competition> dbResults = em.createQuery("select c from Competition c").getResultList();
-        return dbResults;
+       return  em.createQuery("select c from Competition c").getResultList();
     }
 
     @Override
     public void deleteCompetition(Long id) {
-      EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
-      Competition dbCompetition = em.find(Competition.class, id);
-      em.remove(dbCompetition);
+        EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
+        Competition dbCompetition = em.find(Competition.class, id);
+        em.remove(dbCompetition);
     }
 
     @Override
     public Competition save(Competition competition) {
-       EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
-       em.persist(competition);
-       return competition;
+        EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
+        em.persist(competition);
+        return competition;
     }
 
     @Override
     public Competition update(Competition competition) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager em=EntityManagerProvider.getInstance().getEntityManager();
+        Competition dbCompetition = em.find(Competition.class, competition.getId());
+        if(dbCompetition==null){
+            System.out.println("Competition doesnt exists!");
+        }
+        else{
+            System.out.println("COMPETITIION "+ competition);
+            Competition updatedCompetition = em.merge(competition);
+            System.out.println("TAKMICENJEeeeeeeee" +updatedCompetition);
+            return updatedCompetition;
+        }
+        return dbCompetition;
     }
-    
+
 }

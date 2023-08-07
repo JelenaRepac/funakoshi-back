@@ -21,7 +21,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="membership_fee")
+@Table(name="membership_fee", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"month", "date","member_id"})
+})
 public class MembershipFee {
     
     @Id

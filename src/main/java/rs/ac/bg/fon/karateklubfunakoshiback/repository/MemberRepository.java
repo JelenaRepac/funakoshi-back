@@ -15,13 +15,13 @@ public interface MemberRepository {
     
     List<Member> getAll();
     
-    Member getAllByCompetitorId(Long id);
+    Member getByCompetitorId(Long id);
     
-    public void deleteMember(Long id);
+     void deleteMember(Long id);
 
-    public Member save(Member member);
+     Member save(Member member);
 
-    public Member getById(Long id);
+     Member getById(Long id);
 
     Member update(Member member);
 }

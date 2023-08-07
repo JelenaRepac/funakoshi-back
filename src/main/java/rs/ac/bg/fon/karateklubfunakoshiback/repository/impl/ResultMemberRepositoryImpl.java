@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
-import rs.ac.bg.fon.karateklubfunakoshiback.model.Member;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.ResultMember;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.ResultMemberRepository;
 
@@ -22,13 +21,15 @@ public class ResultMemberRepositoryImpl implements ResultMemberRepository{
     @Override
     public List<ResultMember> getAll() {
         EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
-        List<ResultMember> dbResults= em.createQuery("select r from ResultMember r").getResultList();
-        return dbResults;
+        return em.createQuery("select r from ResultMember r").getResultList();
+
     }
 
     @Override
     public ResultMember save(ResultMember result) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
+        em.persist(result);
+        return result;
     }
 
     @Override
@@ -39,8 +40,8 @@ public class ResultMemberRepositoryImpl implements ResultMemberRepository{
     @Override
     public List<ResultMember> getAllByCompetitionId(Long id) {
         EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
-        List<ResultMember> results = em.createQuery("select r from ResultMember r where r.competition.id = :id").setParameter("id", id).getResultList();
-        return results;
+        return em.createQuery("select r from ResultMember r where r.competition.id = :id").setParameter("id", id).getResultList();
+
     }
     
 }

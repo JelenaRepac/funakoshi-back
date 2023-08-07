@@ -6,14 +6,15 @@ package rs.ac.bg.fon.karateklubfunakoshiback.repository;
 
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Competitor;
 
+
 /**
  *
  * @author Jeks
  */
 public interface CompetitorRepository {
 
-    public Competitor update(Competitor competitor);
+     Competitor update(Competitor competitor);
 
-    public Competitor save(Competitor competitor);
+     Competitor save(Competitor competitor);
 
 }

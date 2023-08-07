@@ -9,8 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Category;
+import rs.ac.bg.fon.karateklubfunakoshiback.model.ClassCategory;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Discipline;
-import rs.ac.bg.fon.karateklubfunakoshiback.model.Team;
 
 /**
  *
@@ -25,6 +25,7 @@ public class CompetitorDTO {
     private Long id;
     private Category category;
     private Discipline discipline;
+    private ClassCategory classCategory;
     private Double medals;
     private Double goldMedals;
     private Double silverMedals;

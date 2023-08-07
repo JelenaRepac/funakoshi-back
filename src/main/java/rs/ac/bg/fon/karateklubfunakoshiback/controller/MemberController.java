@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.bg.fon.karateklubfunakoshiback.communication.Response;
+import rs.ac.bg.fon.karateklubfunakoshiback.dto.CompetitorDTO;
 import rs.ac.bg.fon.karateklubfunakoshiback.dto.MemberDTO;
+import rs.ac.bg.fon.karateklubfunakoshiback.model.Competitor;
 import rs.ac.bg.fon.karateklubfunakoshiback.service.MemberService;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Member;
 /**
@@ -72,6 +74,7 @@ public class MemberController {
         }catch( Exception ex){
             response.setResponseData(null);
             response.setResponseException(ex);
+            response.setResponseMessage("Can't delete member!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
@@ -146,15 +149,39 @@ public class MemberController {
     
     @GetMapping("/competitor/id/{id}")
     @CrossOrigin
-    public ResponseEntity<Response> getAllMembersByCompetitorId(@PathVariable(name = "id") Long id){
+    public ResponseEntity<Response> getMemberByCompetitorId(@PathVariable(name = "id") Long id){
         Response response= new Response();
         try {
             
-            MemberDTO member = modelMapper.map(memberService.getAllByCompetitor(id), MemberDTO.class);
+            MemberDTO member = modelMapper.map(memberService.getByCompetitor(id), MemberDTO.class);
             response.setResponseData(member);
             response.setResponseException(null);
+            System.out.println(member.toString());
             return ResponseEntity.ok().body(response);
         }catch (Exception ex) {
+            response.setResponseData(null);
+            System.out.println(ex.getMessage());
+            response.setResponseException(ex);
+            return ResponseEntity.ok().body(response);
+        }
+    }
+
+    @PostMapping("/{id}")
+    @CrossOrigin
+    public ResponseEntity<Response> saveCompetitorForMember(@PathVariable("id") Long id,@RequestBody CompetitorDTO competitorDTO){
+        Response response= new Response();
+
+        try{
+            MemberDTO member= modelMapper.map(memberService.getMemberById(id), MemberDTO.class);
+            Competitor transformedCompetitorObject =
+                    modelMapper.map(competitorDTO, Competitor.class);
+            member.setCompetitor(transformedCompetitorObject);
+            Member savedMember = memberService.update(modelMapper.map(member, Member.class));
+
+            response.setResponseData(savedMember);
+            response.setResponseException(null);
+            return ResponseEntity.ok().body(response);
+        } catch( Exception ex){
             response.setResponseData(null);
             System.out.println(ex.getMessage());
             response.setResponseException(ex);

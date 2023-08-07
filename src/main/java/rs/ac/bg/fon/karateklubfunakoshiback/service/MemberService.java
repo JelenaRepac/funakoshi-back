@@ -9,9 +9,7 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
-import rs.ac.bg.fon.karateklubfunakoshiback.dto.MemberDTO;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Member;
-import rs.ac.bg.fon.karateklubfunakoshiback.model.Trainer;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.MemberRepository;
 
 /**
@@ -115,12 +113,12 @@ public class MemberService {
         }
     }
     
-     public Member getAllByCompetitor(Long competitorId){
+     public Member getByCompetitor(Long competitorId){
         EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
         em.getTransaction().begin();
          try {
 
-            Member dbResult = memberRepository.getAllByCompetitorId(competitorId);
+            Member dbResult = memberRepository.getByCompetitorId(competitorId);
             em.getTransaction().commit();
             return dbResult;
         } catch (Exception e) {

@@ -10,6 +10,7 @@ import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.Competitor;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.CompetitorRepository;
 
+
 /**
  *
  * @author Jeks
@@ -25,9 +26,7 @@ public class CompetitorRepositoryImpl implements CompetitorRepository{
             System.out.println("Competition doesnt exists!");
         }
         else{
-
-            Competitor updatedCompetitor = em.merge(competitor);
-            return updatedCompetitor;
+            return em.merge(competitor);
         }
         return dbCompetitor;
     }
@@ -39,5 +38,6 @@ public class CompetitorRepositoryImpl implements CompetitorRepository{
         System.out.println(competitor.toString());
         return competitor;
     }
+
 
 }

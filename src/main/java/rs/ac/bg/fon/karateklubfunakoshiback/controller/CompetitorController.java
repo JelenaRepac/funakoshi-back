@@ -57,11 +57,12 @@ public class CompetitorController {
 
     @PutMapping()
     @CrossOrigin
-    public ResponseEntity<Response> updateCompetition(@RequestBody CompetitorDTO competitorDTO) {
+    public ResponseEntity<Response> updateCompetitor(@RequestBody CompetitorDTO competitorDTO) {
 
         Response response = new Response();
         try {
             Competitor savedCompetitor = competitorService.update(modelMapper.map(competitorDTO, Competitor.class));
+            System.out.println(savedCompetitor+ "TAKMICAR");
             response.setResponseData(savedCompetitor);
             response.setResponseException(null);
             return ResponseEntity.status(HttpStatus.OK).body(response);

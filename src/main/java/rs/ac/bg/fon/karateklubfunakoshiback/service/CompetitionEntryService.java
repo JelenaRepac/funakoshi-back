@@ -11,6 +11,8 @@ import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.CompetitionEntry;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.CompetitionEntryRepository;
 
+import java.util.List;
+
 /**
  *
  * @author Jeks
@@ -31,6 +33,25 @@ public class CompetitionEntryService {
             em.getTransaction().commit();
             return dbCompetition;
         } catch( Exception e){
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+
+        } finally {
+            em.close();
+            EntityManagerProvider.getInstance().closeSession();
+        }
+    }
+
+    public List<CompetitionEntry> getAllByCompetitionId(Long id){
+        EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
+        em.getTransaction().begin();
+        try {
+
+            List<CompetitionEntry> dbEntries = competitionEntryRepository.getAllByCompetitionId(id);
+            em.getTransaction().commit();
+            return dbEntries;
+        } catch (Exception e) {
             if (em.getTransaction().isActive())
                 em.getTransaction().rollback();
             throw e;

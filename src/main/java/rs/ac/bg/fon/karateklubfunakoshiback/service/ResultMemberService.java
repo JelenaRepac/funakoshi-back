@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
-import rs.ac.bg.fon.karateklubfunakoshiback.model.Member;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.ResultMember;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.ResultMemberRepository;
 
@@ -53,6 +52,24 @@ public class ResultMemberService {
             em.getTransaction().commit();
             return dbResult;
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+            throw e;
+
+        } finally {
+            em.close();
+            EntityManagerProvider.getInstance().closeSession();
+        }
+    }
+
+    public ResultMember save(ResultMember resultMember) {
+        EntityManager em = EntityManagerProvider.getInstance().getEntityManager();
+        em.getTransaction().begin();
+        try{
+            ResultMember dbResultMember= repository.save(resultMember);
+            em.getTransaction().commit();
+            return dbResultMember;
+        } catch( Exception e){
             if (em.getTransaction().isActive())
                 em.getTransaction().rollback();
             throw e;

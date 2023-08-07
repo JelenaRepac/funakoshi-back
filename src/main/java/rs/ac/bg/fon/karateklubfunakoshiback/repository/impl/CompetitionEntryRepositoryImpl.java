@@ -10,6 +10,8 @@ import rs.ac.bg.fon.karateklubfunakoshiback.dbconnection.EntityManagerProvider;
 import rs.ac.bg.fon.karateklubfunakoshiback.model.CompetitionEntry;
 import rs.ac.bg.fon.karateklubfunakoshiback.repository.CompetitionEntryRepository;
 
+import java.util.List;
+
 /**
  *
  * @author Jeks
@@ -24,4 +26,10 @@ public class CompetitionEntryRepositoryImpl implements CompetitionEntryRepositor
         return competitionEntry;
     }
 
+    @Override
+    public List<CompetitionEntry> getAllByCompetitionId(Long id) {
+        EntityManager em= EntityManagerProvider.getInstance().getEntityManager();
+        return em.createQuery("select r from CompetitionEntry r where r.competition.id = :id").setParameter("id", id).getResultList();
+
+    }
 }

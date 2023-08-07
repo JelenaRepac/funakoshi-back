@@ -4,15 +4,8 @@
  */
 package rs.ac.bg.fon.karateklubfunakoshiback.model;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +20,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "competition_entry")
+@Table(name = "competition_entry", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"competition_id", "competitor_id"})
+})
 public class CompetitionEntry {
 
     @Id
@@ -35,7 +30,7 @@ public class CompetitionEntry {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "competiton_id")
+    @JoinColumn(name = "competition_id   ")
     private Competition competition;
     @ManyToOne
     @JoinColumn(name = "competitor_id")
