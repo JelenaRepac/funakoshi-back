@@ -53,7 +53,6 @@ public class CityController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
-    
     @GetMapping("/{id}")
     @CrossOrigin
     public ResponseEntity<Response> getById(@PathVariable("id") Long id){
